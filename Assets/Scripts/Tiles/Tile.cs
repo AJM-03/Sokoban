@@ -14,7 +14,7 @@ public class Tile : MonoBehaviour
         node.tileType = type;
     }
 
-    public virtual void Update()
+    public virtual void UpdateTile()
     {
 
     }

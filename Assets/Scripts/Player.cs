@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Item
 {
     public static Player Instance;
 
@@ -66,5 +66,11 @@ public class Player : MonoBehaviour
     public void CannotInteract()
     {
 
+    }
+
+
+    public override void InitialiseItem(Node n)
+    {
+        base.InitialiseItem(n);
     }
 }

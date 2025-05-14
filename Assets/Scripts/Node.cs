@@ -14,11 +14,11 @@ public class Node : MonoBehaviour
     public GameObject tileObject;
 
     public ItemTypes itemType;
-    public InteractiveObject item;
+    public Item item;
     public GameObject itemObject;
 
-    private Collider2D col;
     public LayerMask nodeLayer;
+
 
     public void InitialiseNode()
     {
@@ -71,23 +71,39 @@ public class Node : MonoBehaviour
         {
             tileType = TileTypes.Null;
         }
+
+
+
+        item = transform.GetComponentInChildren<Item>();
+        if (item != null)
+        {
+            itemObject = item.gameObject;
+            item.InitialiseItem(this);
+        }
+        else
+        {
+            itemType = ItemTypes.None;
+        }
     }
+
 
     public void UpdateTiles()
     {
         if (tile != null)
         {
-            tile.Update();
+            tile.UpdateTile();
         }
     }
+
 
     public void UpdateItems()
     {
         if (item != null && itemType != ItemTypes.Player)
         {
-            //item.Update();
+            item.UpdateItem();
         }
     }
+
 
     public void Interact()
     {
@@ -103,6 +119,7 @@ public class Node : MonoBehaviour
             }
         }
     }
+
 
     public void KickNode()
     {

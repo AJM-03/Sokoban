@@ -9,9 +9,9 @@ public class SolidTile : Tile
         base.InitialiseTile(n);
     }
 
-    public override void Update()
+    public override void UpdateTile()
     {
-        base.Update();
+        base.UpdateTile();
     }
 
     public override void Interact()
