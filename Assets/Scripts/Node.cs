@@ -110,7 +110,7 @@ public class Node : MonoBehaviour
         if (itemType == ItemTypes.None)
         {
             if (tile != null) tile.Interact();
-            Debug.Log(tileType + " - 1");
+
             if (tileType == TileTypes.Wall)
             {
                 Player.Instance.QuestionReaction();
@@ -139,8 +139,6 @@ public class Node : MonoBehaviour
                     Player.Instance.QuestionReaction();
                 }
             }
-            Debug.Log(tileType + " - 3");
-
         }
     }
 
@@ -167,5 +165,6 @@ public enum ItemTypes
     Player,
     Spikes,
     Chest,
-    Enemy
+    Enemy,
+    Box
 }

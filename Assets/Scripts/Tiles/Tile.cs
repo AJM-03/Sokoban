@@ -24,7 +24,7 @@ public class Tile : MonoBehaviour
 
     }
 
-    public virtual void Kick()
+    public virtual void Kick(Vector2 sideKicked)
     {
 
     }

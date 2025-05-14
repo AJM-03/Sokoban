@@ -25,15 +25,18 @@ public class ChestItem : Item
         base.Interact();
     }
 
-    public override void Kick()
+    public override void Kick(Vector2 sideKicked)
     {
-        kickCounter++;
-        if (kickCounter == 3)
+        if (sideKicked == new Vector2(0, 1))
         {
-            sprite.sprite = upgradedSprite;
-            Player.Instance.ExclamationReaction();
+            kickCounter++;
+            if (kickCounter == 3)
+            {
+                sprite.sprite = upgradedSprite;
+                Player.Instance.ExclamationReaction();
+            }
         }
 
-        base.Kick();
+        base.Kick(sideKicked);
     }
 }

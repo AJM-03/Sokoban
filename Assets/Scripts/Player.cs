@@ -158,9 +158,7 @@ public class Player : Item
         Debug.Log(d + " - " + n.tileType + " - " + n.itemType);
         bool valid = true;
         if (n.tileType == TileTypes.Wall) valid = false;
-        if (n.itemType == ItemTypes.Chest) valid = false;
-        if (n.itemType == ItemTypes.Enemy) valid = false;
-        if (n.itemType == ItemTypes.Spikes) valid = false;
+        if (n.itemType != ItemTypes.None) valid = false;
 
 
         if (valid == false) StartCoroutine(Kick(n, d));
@@ -201,8 +199,10 @@ public class Player : Item
         sprite.position = startPos + new Vector3(d.x / kickDistance, d.y / kickDistance, 0);
 
         yield return new WaitForSeconds(kickTime);
-        if (n.tile != null) n.tile.Kick();
-        if (n.item != null) n.item.Kick();
+
+        Vector2 sideKicked = new Vector2(-d.x, -d.y);
+        if (n.tile != null) n.tile.Kick(sideKicked);
+        if (n.item != null) n.item.Kick(sideKicked);
 
         sprite.position = startPos;
     }

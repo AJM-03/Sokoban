@@ -19,8 +19,8 @@ public class SolidTile : Tile
         base.Interact();
     }
 
-    public override void Kick()
+    public override void Kick(Vector2 sideKicked)
     {
-        base.Kick();
+        base.Kick(sideKicked);
     }
 }

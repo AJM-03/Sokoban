@@ -1,0 +1,58 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.U2D;
+
+public class BoxItem : Item
+{
+
+    public override void InitialiseItem(Node n)
+    {
+        base.InitialiseItem(n);
+    }
+
+    public override void UpdateItem()
+    {
+        base.UpdateItem();
+    }
+
+    public override void Interact()
+    {
+        base.Interact();
+    }
+
+    public override void Kick(Vector2 sideKicked)
+    {
+        Node targetNode = null;
+        bool valid = true;
+        if (sideKicked == new Vector2(0, 1)) targetNode = node.bottom;
+        if (sideKicked == new Vector2(0, -1)) targetNode = node.top;
+        if (sideKicked == new Vector2(1, 0)) targetNode = node.left;
+        if (sideKicked == new Vector2(-1, 0)) targetNode = node.right;
+
+        if (targetNode == null) valid = false;
+        if (valid)
+        {
+            if (targetNode.item != null) valid = false;
+            if (targetNode.tileType == TileTypes.Null) valid = false;
+        }
+        Debug.Log(sideKicked);
+
+        if (valid)
+        {
+            node.item = null;
+            node.itemType = ItemTypes.None;
+            node.itemObject = null;
+
+            transform.position = targetNode.transform.position;
+            transform.parent = targetNode.transform;
+            node = targetNode;
+
+            targetNode.item = this;
+            targetNode.itemType = ItemTypes.Box;
+            targetNode.itemObject = gameObject;
+        }
+
+        base.Kick(sideKicked);
+    }
+}
