@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class Player : Item
 {
@@ -14,6 +16,9 @@ public class Player : Item
     public Transform sprite;
     public GameObject questionReaction;
     public GameObject exclamationReaction;
+    public Image heldItemUI;
+    public TMP_Text potionCountUI;
+    public TMP_Text stageNumberUI;
     private Animator anim;
 
 
@@ -34,6 +39,8 @@ public class Player : Item
     public float reactionTime = 0.8f;
     public float updateDelay = 0.01f;
     private float inputDelay = 0;
+
+    public int potionCount = 0;
 
 
     void Awake()
@@ -210,7 +217,8 @@ public class Player : Item
 
     public IEnumerator InteractWithNode(Node n, Vector2 d)
     {
-        n.Interact();
+        Vector2 sideInteracted = new Vector2(-d.x, -d.y);
+        n.Interact(sideInteracted);
 
         movementInputDirection = Vector2.zero;
         interactInput = false;
@@ -225,6 +233,8 @@ public class Player : Item
     public void PickUpTile(Tile t)
     {
         heldTile = t.data;
+        heldItemUI.sprite = t.data.sprite;
+        heldItemUI.color = Color.white;
 
         t.node.tile = null;
         t.node.tileObject = null;
@@ -238,7 +248,10 @@ public class Player : Item
         n.tileObject = GameObject.Instantiate(heldTile.prefab, n.transform.position, n.transform.rotation, n.transform);
         n.tile = n.tileObject.transform.GetComponent<Tile>();
         n.tile.InitialiseTile(n);
+
         heldTile = null;
+        heldItemUI.sprite = null;
+        heldItemUI.color = Color.clear;
     }
 
 

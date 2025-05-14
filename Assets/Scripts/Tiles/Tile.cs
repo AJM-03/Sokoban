@@ -19,7 +19,7 @@ public class Tile : MonoBehaviour
 
     }
 
-    public virtual void Interact()
+    public virtual void Interact(Vector2 sideInteracted)
     {
 
     }

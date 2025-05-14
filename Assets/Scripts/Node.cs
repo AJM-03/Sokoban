@@ -105,11 +105,11 @@ public class Node : MonoBehaviour
     }
 
 
-    public void Interact()
+    public void Interact(Vector2 sideInteracted)
     {
         if (itemType == ItemTypes.None)
         {
-            if (tile != null) tile.Interact();
+            if (tile != null) tile.Interact(sideInteracted);
 
             if (tileType == TileTypes.Wall)
             {

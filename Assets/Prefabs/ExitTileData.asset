@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: ExitTileData
   m_EditorClassIdentifier: 
   prefab: {fileID: 1271958821392198466, guid: 510885b63f036cf4a93c43edf11e0748, type: 3}
+  sprite: {fileID: 1904263946, guid: ad5ffd7203b62894d962807d82dda161, type: 3}

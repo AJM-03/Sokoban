@@ -14,9 +14,9 @@ public class SolidTile : Tile
         base.UpdateTile();
     }
 
-    public override void Interact()
+    public override void Interact(Vector2 sideInteracted)
     {
-        base.Interact();
+        base.Interact(sideInteracted);
     }
 
     public override void Kick(Vector2 sideKicked)

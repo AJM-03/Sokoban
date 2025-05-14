@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: SolidTileData
   m_EditorClassIdentifier: 
   prefab: {fileID: 696096529273815879, guid: 7fcb22c6328d3fd48935665c6382cb2d, type: 3}
+  sprite: {fileID: 910670127, guid: 5dae907959dd5d140bd8f58e0eb5b659, type: 3}
