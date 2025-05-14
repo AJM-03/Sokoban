@@ -37,5 +37,10 @@ public class GridManager : MonoBehaviour
         {
             node.UpdateItems();
         }
+
+        foreach (Node node in nodes)
+        {
+            node.PostUpdate();
+        }
     }
 }

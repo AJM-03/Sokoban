@@ -31,6 +31,7 @@ public class Player : Item
 
     public float hangTime = 1;
     private Vector2 hangReturnDirection;
+    public float hangDistance = 10f;
     private bool hanging;
 
     public float inputSpacing = 0.1f;
@@ -41,6 +42,9 @@ public class Player : Item
     private float inputDelay = 0;
 
     public int potionCount = 0;
+
+    private Vector3 spritePosition;
+
 
 
     void Awake()
@@ -54,6 +58,7 @@ public class Player : Item
         interactInputAction = controls.currentActionMap.FindAction("Interact");
 
         anim = sprite.GetComponent<Animator>();
+        spritePosition = sprite.transform.localPosition;
     }
 
     private void Start()
@@ -148,13 +153,14 @@ public class Player : Item
         {
             if (hangReturnDirection != d)
             {
-                StartCoroutine(KillPlayer());
+                KillPlayer();
                 yield break;
             }
             else
             {
                 hanging = false;
                 hangReturnDirection = Vector2.zero;
+                sprite.localPosition = spritePosition;
                 StopCoroutine("WaterHang");
             }
         }
@@ -162,7 +168,7 @@ public class Player : Item
 
         playerDirection = d;
         SpriteSwap();
-        Debug.Log(d + " - " + n.tileType + " - " + n.itemType);
+
         bool valid = true;
         if (n.tileType == TileTypes.Wall) valid = false;
         if (n.itemType != ItemTypes.None) valid = false;
@@ -202,8 +208,7 @@ public class Player : Item
 
     public IEnumerator Kick(Node n, Vector2 d)
     {
-        Vector3 startPos = sprite.position;
-        sprite.position = startPos + new Vector3(d.x / kickDistance, d.y / kickDistance, 0);
+        sprite.localPosition = spritePosition + new Vector3(d.x / kickDistance, d.y / kickDistance, 0);
 
         yield return new WaitForSeconds(kickTime);
 
@@ -211,7 +216,7 @@ public class Player : Item
         if (n.tile != null) n.tile.Kick(sideKicked);
         if (n.item != null) n.item.Kick(sideKicked);
 
-        sprite.position = startPos;
+        sprite.localPosition = spritePosition;
     }
 
 
@@ -265,6 +270,7 @@ public class Player : Item
     public IEnumerator WaterHang(Vector2 d)
     {
         hangReturnDirection = new Vector2(-d.x, -d.y);
+        sprite.localPosition = spritePosition + new Vector3(hangReturnDirection.x / hangDistance, hangReturnDirection.y / hangDistance, 0);
         hanging = true;
 
         yield return new WaitForSeconds(hangTime);
@@ -275,11 +281,17 @@ public class Player : Item
 
     private void FallInWater()
     {
-        StartCoroutine(KillPlayer());
+        sprite.localPosition = spritePosition;
+        KillPlayer();
     }
 
 
-    public IEnumerator KillPlayer()
+    public void KillPlayer()
+    {
+        StartCoroutine(IEKillPlayer());
+    }
+
+    private IEnumerator IEKillPlayer()
     {
         inputDelay = 100;
         yield return new WaitForSeconds(1f);

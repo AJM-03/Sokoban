@@ -36,7 +36,6 @@ public class BoxItem : Item
             if (targetNode.item != null) valid = false;
             if (targetNode.tileType == TileTypes.Null) valid = false;
         }
-        Debug.Log(sideKicked);
 
         if (valid)
         {

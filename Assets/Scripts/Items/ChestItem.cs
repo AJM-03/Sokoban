@@ -5,13 +5,15 @@ using UnityEngine;
 public class ChestItem : Item
 {
     public int reward = 1;
+    private bool opened;
+    public Sprite openSprite;
 
     private int kickCounter = 0;
     public int kicksToUpgrade = 3;
 
     private bool upgraded;
     public int upgradedReward = 3;
-    public Sprite upgradedSprite;
+    public Sprite upgradedSprite, upgradedOpenSprite;
     public SpriteRenderer sprite;
 
     public override void InitialiseItem(Node n)
@@ -26,11 +28,23 @@ public class ChestItem : Item
 
     public override void Interact(Vector2 sideInteracted)
     {
-        if (sideInteracted == new Vector2(0, -1))
+        if (!opened)
         {
-            if (!upgraded) Player.Instance.potionCount += reward;
-            else  Player.Instance.potionCount += upgradedReward;
-            Player.Instance.potionCountUI.text = "x" + Player.Instance.potionCount.ToString();
+            if (sideInteracted == new Vector2(0, -1))
+            {
+                if (!upgraded)
+                {
+                    Player.Instance.potionCount += reward;
+                    sprite.sprite = openSprite;
+                }
+                else
+                {
+                    Player.Instance.potionCount += upgradedReward;
+                    sprite.sprite = upgradedOpenSprite;
+                }
+                Player.Instance.potionCountUI.text = "x" + Player.Instance.potionCount.ToString();
+                opened = true;
+            }
         }
 
         base.Interact(sideInteracted);
@@ -38,14 +52,17 @@ public class ChestItem : Item
 
     public override void Kick(Vector2 sideKicked)
     {
-        if (sideKicked == new Vector2(0, 1))
+        if (!opened)
         {
-            kickCounter++;
-            if (kickCounter == 3)
+            if (sideKicked == new Vector2(0, 1))
             {
-                upgraded = true;
-                sprite.sprite = upgradedSprite;
-                Player.Instance.ExclamationReaction();
+                kickCounter++;
+                if (kickCounter == 3)
+                {
+                    upgraded = true;
+                    sprite.sprite = upgradedSprite;
+                    Player.Instance.ExclamationReaction();
+                }
             }
         }
 

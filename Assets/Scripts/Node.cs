@@ -105,6 +105,15 @@ public class Node : MonoBehaviour
     }
 
 
+    public void PostUpdate()
+    {
+        if (item != null)
+        {
+            item.updated = false;
+        }
+    }
+
+
     public void Interact(Vector2 sideInteracted)
     {
         if (itemType == ItemTypes.None)
@@ -138,6 +147,13 @@ public class Node : MonoBehaviour
                 {
                     Player.Instance.QuestionReaction();
                 }
+            }
+        }
+        else
+        {
+            if (item != null)
+            {
+                item.Interact(sideInteracted);
             }
         }
     }
