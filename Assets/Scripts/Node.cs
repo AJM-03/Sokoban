@@ -172,6 +172,7 @@ public enum TileTypes
     Solid,
     Null,
     Wall,
+    Button,
     Exit
 }
 

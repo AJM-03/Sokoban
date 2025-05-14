@@ -52,6 +52,8 @@ MonoBehaviour:
   mutualDestructionPossible: 1
   flipDirection: 0
   rend: {fileID: 4456507309282136068}
+  deathEffect: {fileID: 5076772635256657266, guid: ce44477c9b14eb44fb3ab831e24dcac2, type: 3}
+  dead: 0
 --- !u!1 &5850354276427507408
 GameObject:
   m_ObjectHideFlags: 0

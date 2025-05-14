@@ -7,6 +7,7 @@ public class GridManager : MonoBehaviour
 {
     public static GridManager Instance;
     private List<Node> nodes = new List<Node>();
+    [HideInInspector] public bool buttonDown = false;
 
 
     void Awake()
@@ -42,5 +43,15 @@ public class GridManager : MonoBehaviour
         {
             node.PostUpdate();
         }
+    }
+
+    public void ButtonDown()
+    {
+        buttonDown = true;
+    }
+
+    public void ButtonRelease()
+    {
+        buttonDown = false;
     }
 }

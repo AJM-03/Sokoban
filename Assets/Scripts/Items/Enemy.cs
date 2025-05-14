@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 using UnityEngine.U2D;
+using UnityEngine.InputSystem.Processors;
 
 public class Enemy : Item
 {
@@ -10,6 +11,8 @@ public class Enemy : Item
     public bool mutualDestructionPossible = true;
     public bool flipDirection;
     public SpriteRenderer rend;
+    public GameObject deathEffect;
+    [HideInInspector] public bool dead;
 
     public override void InitialiseItem(Node n)
     {
@@ -18,7 +21,7 @@ public class Enemy : Item
 
     public override void UpdateItem()
     {
-        if (!updated)
+        if (!updated && !dead)
         {
             Node targetNode = null;
             bool valid = true;
@@ -46,11 +49,13 @@ public class Enemy : Item
                 if (targetNode.itemType == ItemTypes.Enemy)
                 {
                     Enemy otherEnemy = targetNode.item as Enemy;
-                    if (otherEnemy != null && otherEnemy.updated && mutualDestructionPossible && otherEnemy.mutualDestructionPossible)
+                    if (otherEnemy != null && otherEnemy.updated && !otherEnemy.dead && 
+                        mutualDestructionPossible && otherEnemy.mutualDestructionPossible)
                     {
+                        Debug.Log(otherEnemy);
                         valid = false;
-                        otherEnemy.KillEnemy();
-                        KillEnemy();
+                        otherEnemy.KillEnemy(true);
+                        KillEnemy(false);
                     }
                 }
                 if (targetNode.item != null) valid = false;
@@ -96,11 +101,27 @@ public class Enemy : Item
         base.Kick(sideKicked);
     }
 
-    public void KillEnemy()
+    public void KillEnemy(bool playEffect)
     {
+        StartCoroutine(IEKillEnemy(playEffect));
+    }
+
+
+    private IEnumerator IEKillEnemy(bool playEffect)
+    {
+        dead = true;
+
         node.item = null;
         node.itemType = ItemTypes.None;
         node.itemObject = null;
+
+        if (deathEffect != null && playEffect)
+        {
+            GameObject effect = GameObject.Instantiate(deathEffect, transform.position, transform.rotation);
+        }
+        yield return new WaitForSeconds(0.25f);
+        transform.GetChild(0).gameObject.SetActive(false);
+        yield return new WaitForSeconds(0.75f);
 
         Destroy(gameObject);
     }
