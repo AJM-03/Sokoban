@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2844609784866527065}
   - component: {fileID: 121549892063536183}
-  - component: {fileID: 7876457924477642031}
+  - component: {fileID: 2625175762598839562}
   m_Layer: 0
   m_Name: ExitTile
   m_TagString: Untagged
@@ -159,7 +159,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 1418893766, guid: 5dae907959dd5d140bd8f58e0eb5b659, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -171,7 +171,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7876457924477642031
+--- !u!114 &2625175762598839562
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1271958821392198466}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41114daa4e4d7f44594c195ea98f11e5, type: 3}
+  m_Script: {fileID: 11500000, guid: c35bfcc3cd719284da1e5d3b924e869c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   node: {fileID: 0}

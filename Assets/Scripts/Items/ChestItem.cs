@@ -34,15 +34,15 @@ public class ChestItem : Item
             {
                 if (!upgraded)
                 {
-                    Player.Instance.potionCount += reward;
+                    GameManager.Instance.potionCount += reward;
                     sprite.sprite = openSprite;
                 }
                 else
                 {
-                    Player.Instance.potionCount += upgradedReward;
+                    GameManager.Instance.potionCount += upgradedReward;
                     sprite.sprite = upgradedOpenSprite;
                 }
-                Player.Instance.potionCountUI.text = "x" + Player.Instance.potionCount.ToString();
+                Player.Instance.potionCountUI.text = "x" + GameManager.Instance.potionCount.ToString();
                 opened = true;
             }
         }

@@ -7,6 +7,7 @@ using UnityEngine.U2D;
 public class Enemy : Item
 {
     public bool horizontalMovement;
+    public bool mutualDestructionPossible = true;
     public bool flipDirection;
     public SpriteRenderer rend;
 
@@ -42,6 +43,16 @@ public class Enemy : Item
                     valid = false;
                     Player.Instance.KillPlayer();
                 }
+                if (targetNode.itemType == ItemTypes.Enemy)
+                {
+                    Enemy otherEnemy = targetNode.item as Enemy;
+                    if (otherEnemy != null && otherEnemy.updated && mutualDestructionPossible && otherEnemy.mutualDestructionPossible)
+                    {
+                        valid = false;
+                        otherEnemy.KillEnemy();
+                        KillEnemy();
+                    }
+                }
                 if (targetNode.item != null) valid = false;
                 if (targetNode.tileType == TileTypes.Null) valid = false;
             }
@@ -49,7 +60,6 @@ public class Enemy : Item
 
             if (valid)
             {
-                Debug.Log(targetNode + " - " + flipDirection);
                 node.item = null;
                 node.itemType = ItemTypes.None;
                 node.itemObject = null;
@@ -84,5 +94,14 @@ public class Enemy : Item
         Player.Instance.KillPlayer();
 
         base.Kick(sideKicked);
+    }
+
+    public void KillEnemy()
+    {
+        node.item = null;
+        node.itemType = ItemTypes.None;
+        node.itemObject = null;
+
+        Destroy(gameObject);
     }
 }

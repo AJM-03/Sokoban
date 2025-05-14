@@ -5,6 +5,7 @@ using UnityEngine.U2D;
 
 public class BoxItem : Item
 {
+    public GameObject pushEffect;
 
     public override void InitialiseItem(Node n)
     {
@@ -42,6 +43,12 @@ public class BoxItem : Item
             node.item = null;
             node.itemType = ItemTypes.None;
             node.itemObject = null;
+
+            if (pushEffect != null && sideKicked.y == 0)
+            {
+                GameObject e = GameObject.Instantiate(pushEffect, transform.position, transform.rotation);
+                e.GetComponentInChildren<SpriteRenderer>().flipX = sideKicked == new Vector2(1, 0) ? true : false;  
+            }
 
             transform.position = targetNode.transform.position;
             transform.parent = targetNode.transform;

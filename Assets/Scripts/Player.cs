@@ -11,16 +11,7 @@ public class Player : Item
     public static Player Instance;
 
     public TileData heldTile;
-
     private Vector2 playerDirection;
-    public Transform sprite;
-    public GameObject questionReaction;
-    public GameObject exclamationReaction;
-    public Image heldItemUI;
-    public TMP_Text potionCountUI;
-    public TMP_Text stageNumberUI;
-    private Animator anim;
-
 
     private PlayerInput controls;
     private InputAction movementInputAction;
@@ -39,11 +30,18 @@ public class Player : Item
     public float kickDistance = 1.8f;
     public float reactionTime = 0.8f;
     public float updateDelay = 0.01f;
-    private float inputDelay = 0;
+    [HideInInspector] public float inputDelay = 0;
 
-    public int potionCount = 0;
-
+    public Transform sprite;
+    private Animator anim;
     private Vector3 spritePosition;
+    public GameObject deathEffect;
+    public GameObject questionReaction;
+    public GameObject exclamationReaction;
+
+    public TMP_Text potionCountUI;
+    public Image heldItemUI;
+    public TMP_Text stageNumberUI;
 
 
 
@@ -59,6 +57,9 @@ public class Player : Item
 
         anim = sprite.GetComponent<Animator>();
         spritePosition = sprite.transform.localPosition;
+
+        if (GameManager.Instance != null)
+            stageNumberUI.text = "B" + GameManager.Instance.stageIndex.ToString();
     }
 
     private void Start()
@@ -294,9 +295,15 @@ public class Player : Item
     private IEnumerator IEKillPlayer()
     {
         inputDelay = 100;
-        yield return new WaitForSeconds(1f);
+        if (deathEffect != null)
+        {
+            GameObject effect = GameObject.Instantiate(deathEffect, transform.position, transform.rotation);
+        }
+        yield return new WaitForSeconds(0.25f);
+        sprite.gameObject.SetActive(false);
+        yield return new WaitForSeconds(0.75f);
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        GameManager.Instance.RestartStage();
     }
 
 
