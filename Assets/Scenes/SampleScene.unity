@@ -358,9 +358,10 @@ MonoBehaviour:
   type: 1
   heldTile: {fileID: 0}
   sprite: {fileID: 679275043}
+  hangTime: 1
   inputSpacing: 0.1
   kickTime: 0.05
-  kickDistance: 1.8
+  kickDistance: 7.5
   updateDelay: 0.01
 --- !u!114 &201861867
 MonoBehaviour:
@@ -2183,8 +2184,9 @@ GameObject:
   m_Component:
   - component: {fileID: 679275043}
   - component: {fileID: 679275044}
+  - component: {fileID: 679275045}
   m_Layer: 0
-  m_Name: RACCOONSPRITESHEET_0
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2257,6 +2259,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &679275045
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 679275042}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1770fb012019b3d459166a5523406230, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &682452246
 PrefabInstance:
   m_ObjectHideFlags: 0

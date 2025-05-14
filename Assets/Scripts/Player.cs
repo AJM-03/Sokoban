@@ -12,6 +12,7 @@ public class Player : Item
 
     private Vector2 playerDirection;
     public Transform sprite;
+    private Animator anim;
 
 
     private PlayerInput controls;
@@ -41,6 +42,8 @@ public class Player : Item
         controls.onActionTriggered += ReadInputAction;
         movementInputAction = controls.currentActionMap.FindAction("Movement");
         interactInputAction = controls.currentActionMap.FindAction("Interact");
+
+        anim = sprite.GetComponent<Animator>();
     }
 
     private void Start()
@@ -245,7 +248,8 @@ public class Player : Item
 
     private void SpriteSwap()
     {
-        //playerDirection
+        anim.SetFloat("X", playerDirection.x);
+        anim.SetFloat("Y", playerDirection.y);
     }
 
 
