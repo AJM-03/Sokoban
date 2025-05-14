@@ -6,7 +6,7 @@ public class Tile : MonoBehaviour
 {
     public Node node;
     public TileTypes type;
-    public GameObject prefab;
+    public TileData data;
 
     public virtual void InitialiseTile(Node n)
     {
@@ -21,7 +21,7 @@ public class Tile : MonoBehaviour
 
     public virtual void Interact()
     {
-        Player.Instance.PickUpTile(this);
+
     }
 
     public virtual void Kick()

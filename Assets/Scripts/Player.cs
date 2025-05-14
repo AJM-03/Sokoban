@@ -8,10 +8,12 @@ public class Player : Item
 {
     public static Player Instance;
 
-    public GameObject heldTile;
+    public TileData heldTile;
 
     private Vector2 playerDirection;
     public Transform sprite;
+    public GameObject questionReaction;
+    public GameObject exclamationReaction;
     private Animator anim;
 
 
@@ -29,6 +31,7 @@ public class Player : Item
     public float inputSpacing = 0.1f;
     public float kickTime = 0.05f;
     public float kickDistance = 1.8f;
+    public float reactionTime = 0.8f;
     public float updateDelay = 0.01f;
     private float inputDelay = 0;
 
@@ -88,7 +91,13 @@ public class Player : Item
                 if (playerDirection == new Vector2(-1, 0)) n = node.left;
                 if (playerDirection == new Vector2(1, 0)) n = node.right;
 
-                if (n != null) StartCoroutine(InteractWithNode(n, playerDirection));
+                if (n == null)
+                {
+                    n = new Node();
+                    n.tileType = TileTypes.Wall;
+                }
+                
+                StartCoroutine(InteractWithNode(n, playerDirection));
             }
         }
     }
@@ -123,41 +132,6 @@ public class Player : Item
             if (context.started) interactInput = true;
             if (context.canceled) interactInput = false;
         }
-    }
-
-
-    public void PickUpTile(Tile t)
-    {
-        if (heldTile == null)
-        {
-            heldTile = t.prefab;
-
-            t.node.tile = null;
-            t.node.tileObject = null;
-            t.node.tileType = TileTypes.Null;
-
-            Destroy(gameObject);
-        }
-        else
-            CannotInteract();
-    }
-
-    public void PlaceTile(Node n)
-    {
-        if (heldTile != null)
-        {
-            n.tileObject = GameObject.Instantiate(heldTile, n.transform.position, n.transform.rotation, n.transform);
-            n.tile = n.tileObject.transform.GetComponent<Tile>();
-            n.tileType = n.tile.type;
-
-            heldTile = null;
-        }
-    }
-
-
-    public void CannotInteract()
-    {
-
     }
 
 
@@ -213,6 +187,8 @@ public class Player : Item
         movementInputDirection = Vector2.zero;
         interactInput = false;
         inputDelay = inputSpacing;
+        exclamationReaction.SetActive(false);
+        questionReaction.SetActive(false);
 
         yield return new WaitForSeconds(updateDelay);
 
@@ -246,6 +222,26 @@ public class Player : Item
     }
 
 
+    public void PickUpTile(Tile t)
+    {
+        heldTile = t.data;
+
+        t.node.tile = null;
+        t.node.tileObject = null;
+        t.node.tileType = TileTypes.Null;
+
+        Destroy(t.gameObject);
+    }
+
+    public void PlaceTile(Node n)
+    {
+        n.tileObject = GameObject.Instantiate(heldTile.prefab, n.transform.position, n.transform.rotation, n.transform);
+        n.tile = n.tileObject.transform.GetComponent<Tile>();
+        n.tile.InitialiseTile(n);
+        heldTile = null;
+    }
+
+
     private void SpriteSwap()
     {
         anim.SetFloat("X", playerDirection.x);
@@ -276,6 +272,32 @@ public class Player : Item
         yield return new WaitForSeconds(1f);
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+
+    public void QuestionReaction()
+    {
+        StartCoroutine(IEQuestionReaction());
+    }
+    public void ExclamationReaction()
+    {
+        StartCoroutine(IEExclamationReaction());
+    }
+
+    private IEnumerator IEQuestionReaction()
+    {
+        exclamationReaction.SetActive(false);
+        questionReaction.SetActive(true);
+        yield return new WaitForSeconds(reactionTime);
+        questionReaction.SetActive(false);
+    }
+
+    private IEnumerator IEExclamationReaction()
+    {
+        exclamationReaction.SetActive(true);
+        questionReaction.SetActive(false);
+        yield return new WaitForSeconds(reactionTime);
+        exclamationReaction.SetActive(false);
     }
 
 

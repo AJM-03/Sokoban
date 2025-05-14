@@ -109,14 +109,38 @@ public class Node : MonoBehaviour
     {
         if (itemType == ItemTypes.None)
         {
-            if (tileType != TileTypes.Wall && tile != null)
+            if (tile != null) tile.Interact();
+            Debug.Log(tileType + " - 1");
+            if (tileType == TileTypes.Wall)
             {
-                tile.Interact();
+                Player.Instance.QuestionReaction();
             }
-            else if (tileType == TileTypes.Null)
+
+            else if (Player.Instance.heldTile == null)
             {
-                Player.Instance.PlaceTile(this);
+                if (tile == null)
+                {
+                    Player.Instance.QuestionReaction();
+                }
+                else
+                {
+                    Player.Instance.PickUpTile(tile);
+                }
             }
+
+            else
+            {
+                if (tile == null)
+                {
+                    Player.Instance.PlaceTile(this);
+                }
+                else
+                {
+                    Player.Instance.QuestionReaction();
+                }
+            }
+            Debug.Log(tileType + " - 3");
+
         }
     }
 
