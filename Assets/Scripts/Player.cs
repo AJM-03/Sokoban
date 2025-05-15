@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class Player : Item
 {
@@ -12,6 +13,7 @@ public class Player : Item
 
     public TileData heldTile;
     private Vector2 playerDirection;
+    private bool dead;
 
     private PlayerInput controls;
     private InputAction movementInputAction;
@@ -48,7 +50,7 @@ public class Player : Item
     void Awake()
     {
         if (Instance == null) Instance = this;
-        else if (Instance != this) Destroy(this);
+        else if (Instance != this) Destroy(gameObject);
 
         controls = GetComponent<PlayerInput>();
         controls.onActionTriggered += ReadInputAction;
@@ -59,7 +61,10 @@ public class Player : Item
         spritePosition = sprite.transform.localPosition;
 
         if (GameManager.Instance != null)
+        {
             stageNumberUI.text = "B" + GameManager.Instance.stageIndex.ToString();
+            potionCountUI.text = "x" + GameManager.Instance.potionCount.ToString();
+        }
     }
 
     private void Start()
@@ -78,6 +83,8 @@ public class Player : Item
         {
             if (movementInputDirection != Vector2.zero)
             {
+                inputDelay = 0;
+
                 Node n = null;
                 if (movementInputDirection == new Vector2(0, 1)) n = node.top;
                 if (movementInputDirection == new Vector2(0, -1)) n = node.bottom;
@@ -98,6 +105,8 @@ public class Player : Item
         {
             if (interactInput)
             {
+                inputDelay = 0;
+
                 Node n = null;
                 if (playerDirection == new Vector2(0, 1)) n = node.top;
                 if (playerDirection == new Vector2(0, -1)) n = node.bottom;
@@ -172,6 +181,7 @@ public class Player : Item
 
         bool valid = true;
         if (n.tileType == TileTypes.Wall) valid = false;
+        if (n.tile && n.tile.blocksObjects) valid = false;
         if (n.itemType != ItemTypes.None) valid = false;
 
 
@@ -190,7 +200,7 @@ public class Player : Item
             node.itemObject = gameObject;
             node.item = this;
 
-            if (node.tileType == TileTypes.Null) 
+            if (node.tileType == TileTypes.Null)
                 StartCoroutine(WaterHang(d));
         }
 
@@ -198,17 +208,20 @@ public class Player : Item
 
         movementInputDirection = Vector2.zero;
         interactInput = false;
-        inputDelay = inputSpacing;
+        inputDelay += inputSpacing;
         exclamationReaction.SetActive(false);
         questionReaction.SetActive(false);
 
-        yield return new WaitForSeconds(updateDelay);
+        float delay = updateDelay;
+        if (!valid) delay += kickTime;
+        yield return new WaitForSeconds(delay);
 
         GridManager.Instance.UpdateGrid();
     }    
 
     public IEnumerator Kick(Node n, Vector2 d)
     {
+        inputDelay += kickTime;
         sprite.localPosition = spritePosition + new Vector3(d.x / kickDistance, d.y / kickDistance, 0);
 
         yield return new WaitForSeconds(kickTime);
@@ -289,16 +302,20 @@ public class Player : Item
 
     public void KillPlayer()
     {
-        StartCoroutine(IEKillPlayer());
+        if (!dead)
+            StartCoroutine(IEKillPlayer());
     }
 
     private IEnumerator IEKillPlayer()
     {
+        dead = true;
         inputDelay = 100;
+
         if (deathEffect != null)
         {
             GameObject effect = GameObject.Instantiate(deathEffect, transform.position, transform.rotation);
         }
+
         yield return new WaitForSeconds(0.25f);
         sprite.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.75f);

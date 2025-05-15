@@ -36,6 +36,7 @@ public class BoxItem : Item
         {
             if (targetNode.item != null) valid = false;
             if (targetNode.tileType == TileTypes.Null) valid = false;
+            if (targetNode.tile.blocksObjects) valid = false;
         }
 
         if (valid)

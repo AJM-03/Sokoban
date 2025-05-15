@@ -15,7 +15,7 @@ public class ButtonTile : Tile
         base.InitialiseTile(n);
     }
 
-    public override void UpdateTile()
+    public override void LateUpdateTile()
     {
         if (!down && node.itemType != ItemTypes.None)
         {
@@ -30,7 +30,7 @@ public class ButtonTile : Tile
             GridManager.Instance.ButtonRelease();
         }
 
-        base.UpdateTile();
+        base.LateUpdateTile();
     }
 
     public override void Interact(Vector2 sideInteracted)

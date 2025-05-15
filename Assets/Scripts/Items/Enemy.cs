@@ -12,6 +12,7 @@ public class Enemy : Item
     public bool flipDirection;
     public SpriteRenderer rend;
     public GameObject deathEffect;
+    public bool canDieToSpikes;
     [HideInInspector] public bool dead;
 
     public override void InitialiseItem(Node n)
@@ -52,7 +53,6 @@ public class Enemy : Item
                     if (otherEnemy != null && otherEnemy.updated && !otherEnemy.dead && 
                         mutualDestructionPossible && otherEnemy.mutualDestructionPossible)
                     {
-                        Debug.Log(otherEnemy);
                         valid = false;
                         otherEnemy.KillEnemy(true);
                         KillEnemy(false);
@@ -60,6 +60,7 @@ public class Enemy : Item
                 }
                 if (targetNode.item != null) valid = false;
                 if (targetNode.tileType == TileTypes.Null) valid = false;
+                if (targetNode.tile && targetNode.tile.blocksObjects) valid = false;
             }
 
 
@@ -101,7 +102,7 @@ public class Enemy : Item
         base.Kick(sideKicked);
     }
 
-    public void KillEnemy(bool playEffect)
+    public void KillEnemy(bool playEffect = true)
     {
         StartCoroutine(IEKillEnemy(playEffect));
     }

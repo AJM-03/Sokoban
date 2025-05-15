@@ -44,10 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04301d25f6f648140bd4aeb7c033782f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stages:
+  mainStages:
   - Stage 1
   - Stage 2
   - Stage 3
+  - Stage 4
   - Stage 5
+  - Stage 6
+  - Stage 7
+  - Stage 8
   stageIndex: 0
   potionCount: 0

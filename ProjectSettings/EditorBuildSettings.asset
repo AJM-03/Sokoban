@@ -15,6 +15,21 @@ EditorBuildSettings:
     path: Assets/Scenes/Stage 3.unity
     guid: a09095ebdfdebfb4ab0c12c303caf77e
   - enabled: 1
+    path: Assets/Scenes/Stage 4.unity
+    guid: 012fcc17cd1038a458142ee4d47d1041
+  - enabled: 1
     path: Assets/Scenes/Stage 5.unity
+    guid: d897056bc3fedbd4a94f603552236ce7
+  - enabled: 1
+    path: Assets/Scenes/Secret Room 1.unity
+    guid: 209c94deef8208c428f85657d708e3c9
+  - enabled: 1
+    path: Assets/Scenes/Stage 6.unity
+    guid: ed6ec9a5a6e5dfb448925ef367e5050a
+  - enabled: 1
+    path: Assets/Scenes/Stage 7.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Stage 8.unity
+    guid: eeb92fb8cab20124298967c0f0acfdeb
   m_configObjects: {}

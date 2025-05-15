@@ -7,6 +7,7 @@ public class Tile : MonoBehaviour
     public Node node;
     public TileTypes type;
     public TileData data;
+    public bool blocksObjects;
 
     public virtual void InitialiseTile(Node n)
     {
@@ -15,6 +16,11 @@ public class Tile : MonoBehaviour
     }
 
     public virtual void UpdateTile()
+    {
+
+    }
+
+    public virtual void LateUpdateTile()
     {
 
     }

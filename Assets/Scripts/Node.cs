@@ -19,6 +19,8 @@ public class Node : MonoBehaviour
 
     public LayerMask nodeLayer;
 
+    public string specialExitDestinationScene;
+
 
     public void InitialiseNode()
     {
@@ -95,7 +97,6 @@ public class Node : MonoBehaviour
         }
     }
 
-
     public void UpdateItems()
     {
         if (item != null && itemType != ItemTypes.Player)
@@ -104,12 +105,28 @@ public class Node : MonoBehaviour
         }
     }
 
+    public void LateUpdateTiles()
+    {
+        if (tile != null)
+        {
+            tile.LateUpdateTile();
+        }
+    }
+
+    public void LateUpdateItems()
+    {
+        if (item != null && itemType != ItemTypes.Player)
+        {
+            item.LateUpdateItem();
+        }
+    }
 
     public void PostUpdate()
     {
         if (item != null)
         {
             item.updated = false;
+            item.lateUpdated = false;
         }
     }
 
@@ -173,6 +190,7 @@ public enum TileTypes
     Null,
     Wall,
     Button,
+    Spikes,
     Exit
 }
 
@@ -180,7 +198,6 @@ public enum ItemTypes
 {
     None,
     Player,
-    Spikes,
     Chest,
     Enemy,
     Box

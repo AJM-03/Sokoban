@@ -14,7 +14,11 @@ public class ExitTile : Tile
         if (node.itemType == ItemTypes.Player)
         {
             Player.Instance.inputDelay = 100;
-            GameManager.Instance.NextStage();
+
+            if (node.specialExitDestinationScene == null || node.specialExitDestinationScene == "")
+                GameManager.Instance.NextStage();
+            else
+                GameManager.Instance.SecretStage(node.specialExitDestinationScene);
         }
 
         base.UpdateTile();

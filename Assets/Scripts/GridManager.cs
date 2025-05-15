@@ -8,12 +8,17 @@ public class GridManager : MonoBehaviour
     public static GridManager Instance;
     private List<Node> nodes = new List<Node>();
     [HideInInspector] public bool buttonDown = false;
-
+    public int specialExitDestinationStage;
+    [HideInInspector] public int exitDestinationStage;
 
     void Awake()
     {
         if (Instance == null) Instance = this;
-        else if (Instance != this) Destroy(this);
+        else if (Instance != this) Destroy(gameObject);
+
+        exitDestinationStage = specialExitDestinationStage;
+        if (exitDestinationStage == 0) 
+            exitDestinationStage = GameManager.Instance.stageIndex + 1;
     }
 
 
@@ -41,6 +46,16 @@ public class GridManager : MonoBehaviour
 
         foreach (Node node in nodes)
         {
+            node.LateUpdateTiles();
+        }
+
+        foreach (Node node in nodes)
+        {
+            node.LateUpdateItems();
+        }
+
+        foreach (Node node in nodes)
+        {
             node.PostUpdate();
         }
     }
@@ -48,10 +63,22 @@ public class GridManager : MonoBehaviour
     public void ButtonDown()
     {
         buttonDown = true;
+
+        foreach (Node node in nodes)
+        {
+            if (node.tileType == TileTypes.Spikes)
+                ((SpikeTile)node.tile).ButtonDown();
+        }
     }
 
     public void ButtonRelease()
     {
         buttonDown = false;
+
+        foreach (Node node in nodes)
+        {
+            if (node.tileType == TileTypes.Spikes)
+                ((SpikeTile)node.tile).ButtonUp();
+        }
     }
 }
