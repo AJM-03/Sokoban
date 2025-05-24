@@ -14,6 +14,7 @@ public class Enemy : Item
     public GameObject deathEffect;
     public bool canDieToSpikes;
     [HideInInspector] public bool dead;
+    [HideInInspector] public bool turnedThisUpdate;
 
     public override void InitialiseItem(Node n)
     {
@@ -27,6 +28,7 @@ public class Enemy : Item
             Node targetNode = null;
             bool valid = true;
             rend.flipX = flipDirection;
+            turnedThisUpdate = false;
             if (horizontalMovement)
             {
                 if (flipDirection) targetNode = node.left;
@@ -50,8 +52,8 @@ public class Enemy : Item
                 if (targetNode.itemType == ItemTypes.Enemy)
                 {
                     Enemy otherEnemy = targetNode.item as Enemy;
-                    if (otherEnemy != null && otherEnemy.updated && !otherEnemy.dead && 
-                        mutualDestructionPossible && otherEnemy.mutualDestructionPossible)
+                    if (otherEnemy != null && otherEnemy.updated && !otherEnemy.turnedThisUpdate && 
+                        !otherEnemy.dead && mutualDestructionPossible && otherEnemy.mutualDestructionPossible)
                     {
                         valid = false;
                         otherEnemy.KillEnemy(true);
@@ -82,6 +84,7 @@ public class Enemy : Item
             {
                 flipDirection = !flipDirection;
                 rend.flipX = flipDirection;
+                turnedThisUpdate = true;
             }
         }
 
